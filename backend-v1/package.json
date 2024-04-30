@@ -6,5 +6,8 @@
   "repository": "git@github.com:ShekarArun/chesst.git",
   "author": "Arun Shekar <shekar.arun@gmail.com>",
   "license": "MIT",
-  "private": false
+  "private": false,
+  "dependencies": {
+    "typescript": "^5.4.5"
+  }
 }
