@@ -1,0 +1,10 @@
+{
+  "name": "chesst-backend-v1",
+  "version": "0.1.0",
+  "description": "Backend v1 for the Chess.com clone",
+  "main": "index.js",
+  "repository": "git@github.com:ShekarArun/chesst.git",
+  "author": "Arun Shekar <shekar.arun@gmail.com>",
+  "license": "MIT",
+  "private": false
+}
