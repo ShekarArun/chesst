@@ -1,6 +1,6 @@
 import { Chess } from "chess.js";
 import { WebSocket } from "ws";
-import { GAME_OVER } from "./messages";
+import { GAME_OVER, INIT_GAME, MOVE } from "./messages";
 
 export class Game {
     public player1: WebSocket;
@@ -13,6 +13,18 @@ export class Game {
         this.player2 = player2;
         this.board = new Chess();
         this.startTime = new Date();
+        this.player1.send(JSON.stringify({
+            type: INIT_GAME,
+            paylod: {
+                color: 'white'
+            }
+        }))
+        this.player2.send(JSON.stringify({
+            type: INIT_GAME,
+            paylod: {
+                color: 'black'
+            }
+        }))
     }
 
     makeMove(socket: WebSocket, move: {
@@ -46,7 +58,25 @@ export class Game {
                     winner: this.board.turn() === 'w' ? 'black' : 'white'
                 }
             }))
+            this.player2.emit(JSON.stringify({
+                type: GAME_OVER,
+                payload: {
+                    winner: this.board.turn() === 'w' ? 'black' : 'white'
+                }
+            }))
+            return;
         }
         // Send updated board to both players
+        if (this.board.moves.length % 2 === 0) {
+            this.player2.emit(JSON.stringify({
+                type: MOVE,
+                payload: move
+            }))
+        } else {
+            this.player1.emit(JSON.stringify({
+                type: MOVE,
+                payload: move
+            }))
+        }
     }
 }
