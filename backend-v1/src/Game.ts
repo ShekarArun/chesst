@@ -15,13 +15,13 @@ export class Game {
         this.startTime = new Date();
         this.player1.send(JSON.stringify({
             type: INIT_GAME,
-            paylod: {
+            payload: {
                 color: 'white'
             }
         }))
         this.player2.send(JSON.stringify({
             type: INIT_GAME,
-            paylod: {
+            payload: {
                 color: 'black'
             }
         }))
@@ -35,10 +35,12 @@ export class Game {
 
         // Is it this user's turn?
         if (this.board.moves.length % 2 === 0 && socket !== this.player1) {
+            console.error('Not your turn yet');
             return;
             // TODO: Raise 'not your turn' error
         }
         if (this.board.moves.length % 2 === 1 && socket !== this.player2) {
+            console.error('Not your turn yet');
             return;
             // TODO: Raise 'not your turn' error
         }
