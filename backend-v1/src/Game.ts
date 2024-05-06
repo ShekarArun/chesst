@@ -34,12 +34,12 @@ export class Game {
         // TODO: Validate type of 'move' using zod
 
         // Is it this user's turn?
-        if (this.board.moves.length % 2 === 0 && socket !== this.player1) {
+        if (this.board.turn() === 'w' && socket !== this.player1) {
             console.error('Not your turn yet');
             return;
             // TODO: Raise 'not your turn' error
         }
-        if (this.board.moves.length % 2 === 1 && socket !== this.player2) {
+        if (this.board.turn() === 'b' && socket !== this.player2) {
             console.error('Not your turn yet');
             return;
             // TODO: Raise 'not your turn' error
@@ -69,16 +69,17 @@ export class Game {
             return;
         }
         // Send updated board to both players
-        if (this.board.moves.length % 2 === 0) {
-            this.player2.emit(JSON.stringify({
+        if (this.board.moves().length % 2 === 0) {
+            this.player2.send(JSON.stringify({
                 type: MOVE,
                 payload: move
             }))
         } else {
-            this.player1.emit(JSON.stringify({
+            this.player1.send(JSON.stringify({
                 type: MOVE,
                 payload: move
             }))
         }
+        console.log('Move made successfully')
     }
 }
